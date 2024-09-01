@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    font-family: 'Open Sans', sans-serif;
+}
+
+h1, h2, h3, .bold {
+    font-family: 'Poppins';
+}
+
+.simpleBtn {
+    transition-duration: 200ms;
+}
+
+.simpleBtn:hover {
+    opacity: 0.8;
+}
+
+.specialBtn {
+    background: white;
+    box-shadow: 0px 14px 55px rgba(255, 197, 96, 0.35);
+    transition-duration: 200ms;
+  }
+
+.specialBtn:hover {
+    opacity: 0.8;
+}
+
+@keyframes rollingColor {
+    0% {
+      color: #8eddff;
+    }
+    50% {
+      color: #000000;
+    }
+    100% {
+      color: #8eddff;
+    }
+    
+  }
