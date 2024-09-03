@@ -7,10 +7,11 @@ from flask_cors import CORS
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
+FRONTEND_ENDPOINT = "http://localhost:5173"
 
 app = Flask(__name__)
-socketio = SocketIO(app, cors_allowed_origins="*")
-CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
+CORS(app, resources={r"/*": {"origins": FRONTEND_ENDPOINT}})
+socketio = SocketIO(app, cors_allowed_origins=FRONTEND_ENDPOINT)
 
 transcriber = pipeline("automatic-speech-recognition", model="openai/whisper-tiny.en")
 transcription_result = []
@@ -20,12 +21,13 @@ def upload_audio():
     if 'audio' not in request.files:
         return jsonify({'error': 'No audio file provided'}), 400
     
+    # Emit a "processing" event to notify the frontend
+    socketio.emit('processing', {'status': 'Processing the audio file...'})
+    logging.debug('processing emitted')
+    
     audio_file = request.files['audio']
     audio_path = os.path.join('uploaded_audio.wav')
     audio_file.save(audio_path)
-
-    # Emit a "processing" event to notify the frontend
-    socketio.emit('processing', {'status': 'Processing the audio file...'})
 
     try:
         audio_data, sample_rate = sf.read(audio_path)

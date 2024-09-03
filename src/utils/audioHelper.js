@@ -1,4 +1,4 @@
-export function createWavBlob(audioData, sampleRate) {
+export async function createWavBlob(audioData, sampleRate) {
     // Creates a WAV file from the raw audio data
     const buffer = new ArrayBuffer(44 + audioData.length * 2);
     const view = new DataView(buffer);
