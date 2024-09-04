@@ -8,7 +8,7 @@ A web app that can transcribe English speech audio into text, and translate it i
 
 Spanish, French, German, Portuguese, Modern Standard Arabic, Simplified Chinese, Traditional Chinese, Russian, Hindi, Japanese, Italian, Finnish, Czech, Danish, Greek, Polish, Swedish, Norwegian, Korean.
 
-### Use
+###Use
 
 Python backend `pybackend/backend.py` mainly uses flask and transformers, check `py_backend/requirements.txt` for dependencies.
 
