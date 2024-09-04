@@ -10,7 +10,7 @@ Spanish, French, German, Portuguese, Modern Standard Arabic, Simplified Chinese,
 
 ### Use
 
-Python backend `pybackend/backend.py` mainly uses flask and transformers, check `py_backend/requirements.txt` for dependencies.
+Python backend `py_backend/backend.py` mainly uses flask and transformers, check `py_backend/requirements.txt` for dependencies.
 
 React uses Tailwind for styling.
 
