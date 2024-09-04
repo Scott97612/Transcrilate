@@ -3,6 +3,8 @@ export default function Transcription(props) {
   const {transcription} = props;
 
   return (
-    <div>{transcription}</div>
+    <div className="flex flex-col mx-auto text-orange-500 p-3 font-medium text-xl">
+      {transcription}
+    </div>
   )
 }

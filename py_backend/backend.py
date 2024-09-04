@@ -53,12 +53,26 @@ def get_transcription():
     else:
         return jsonify({'error': 'No transcription available'}), 404
     
+@app.route('/send-language', methods=['POST'])
+def translate():
+    # first check cache
+    try:
+        socketio.emit('translating', {'status': 'Processing translation...'})
+        form = request.form
+        language = form['language']
+        translater = pipeline("translation", model="facebook/nllb-200-distilled-600M")
+        translation = translater(transcription_result[-1], tgt_lang=language, src_lang='eng_Latn')
+        translation_result.append(translation[0]['translation_text'])
+        socketio.emit('translated', {'status': 'Translation complete'})
+        return jsonify({'message': 'Translation complete'}), 200
+
+    except Exception as e:
+        socketio.emit('translation_error', {'status': f'Error: {str(e)}'})
+        return jsonify({'error': str(e)}), 500
+    
 @app.route('/translation-result', methods=['GET'])
 def get_translation():
-    translater = pipeline("translation", model="facebook/nllb-200-distilled-600M")
-    translation = translater(transcription_result[-1])
-    translation_result.append(translation)
-    if transcription_result:
+    if translation_result:
         return jsonify({'translation': translation_result[-1]}), 200
     else:
         return jsonify({'error': 'No translation available'}), 404
@@ -69,9 +83,9 @@ def reset():
         # reset backend data
         transcription_result, translation_result = [], []
         # logging.debug(f'Here are data lists: {translation_result}, {transcription_result}')
-        return "Data reset successfully", 200 
+        return jsonify({'message': "Data reset successfully"}), 200 
     else:
-        return "No data received", 400 
+        return jsonify({"message": "No data received"}), 400 
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)

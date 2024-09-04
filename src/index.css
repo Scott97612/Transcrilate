@@ -41,6 +41,29 @@ h1, h2, h3, .bold {
     animation-delay: -2s;
 }
 
+.loadingState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.loadingState i {
+  opacity: 0.2;
+  font-size: 3rem;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @keyframes width {
     0%{width: 100%;}
     10%{width: 73%;}

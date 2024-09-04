@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import io from 'socket.io-client';
 import Home from './components/Home';
 import Header from './components/Header';
-import Footer from './components/Footer';
 import FileDisplay from './components/FileDisplay';
 import Info from './components/Info';
 import Transcribing from './components/Transcribing';
@@ -47,7 +46,7 @@ function App() {
     const onProcessing = (data) => {
       console.log('Processing event received:', data.status);
       isProcessingRef.current = true;
-      setLoading(true);
+      setLoading(true);             
     };
 
     const onComplete = async () => {
@@ -168,7 +167,6 @@ function App() {
         <Header Reset={Reset}/>
         {renderedComponent}
       </section>
-      <Footer />
     </div>
   );
 }
