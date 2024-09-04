@@ -14,6 +14,8 @@ Python backend `py_backend/backend.py` mainly uses flask and transformers, check
 
 React uses Tailwind for styling.
 
+--------------------------------
+
 `cd transcrilate/py_backend`
 
 Create a conda env first, then
