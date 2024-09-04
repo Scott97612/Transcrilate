@@ -1,5 +1,3 @@
-import React from 'react'
-
 export default function FileDisplay(props) {
 // eslint-disable-next-line react/prop-types
 const {file, resetAudio, formSubmit} = props;

@@ -1,9 +1,9 @@
-import React from 'react'
 import { useState } from 'react'
 import Transcription from './Transcription';
 import Translation from './Translation';
 
 export default function Info(props) {
+  // eslint-disable-next-line react/prop-types
   const {transcription, translation} = props;
 
   const [tab, setTab] = useState('transcription');

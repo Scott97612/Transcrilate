@@ -73,7 +73,7 @@ export default function Home(props) {
 
   return (
     <main className='flex-1 p-4 flex flex-col justify-center gap-3 sm:gap-4 text-center pb-20'>
-        <a href="/"><h1 className='font-semibold text-5xl sm:text-6xl md:text-7xl animate-[rollingColor_4s_linear_infinite]'>Tran<span className='text-orange-400 bold'>Scrilate</span></h1></a>
+        <h1 className='font-semibold text-5xl sm:text-6xl md:text-7xl animate-[rollingColor_4s_linear_infinite]'>Tran<span className='text-orange-400 bold'>Scrilate</span></h1>
         <h3 className='font-medium md:text-large'>Recording &rarr; Transcribe &rarr; Translate</h3>
         <button className='flex items-center text-base justify-between gap-4 mx-auto w-72 max-w-full my-4 specialBtn px-4 py-2 rounded-xl'
         onClick={recordingStatus==='inactive'? startRecording: stopRecoding}>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import io from 'socket.io-client';
 import Home from './components/Home';
 import Header from './components/Header';
@@ -90,7 +90,7 @@ function App() {
     }
 
     try {
-      let audioBlob = await getAudioFrom(file || audioStream);
+      let audioBlob = await getAudioFrom(file? file: audioStream);
       const formData = new FormData();
       formData.append('audio', audioBlob);
 
@@ -119,12 +119,21 @@ function App() {
     }
   }, [file, audioStream]);
 
-  const resetAudio = useCallback(() => {
+  const Reset = useCallback(async () => {
     setFile(null);
     setAudioStream(null);
     setTranscribe(false);
     setTranscription(null);
     setLoading(false);
+    // reset the backend data as well
+    const formData = new FormData();
+    formData.append('action', 'reset');
+    const response = await fetch(`${BACKEND_ENDPOINT}/reset`, {
+      method: 'POST',
+      body: formData,
+    });
+    const data = await response.json();
+    console.log('Reset response:', data);
   }, []);
 
   useEffect(() => {
@@ -133,13 +142,13 @@ function App() {
     if (transcribe && transcription) {
       setRenderedComponent(<Info transcription={transcription} />);
     } else if (loading) {
-      console.log('Loading triggered');
+      // console.log('Loading triggered');
       setRenderedComponent(<Transcribing />);
     } else if (audioSource) {
       setRenderedComponent(
         <FileDisplay 
           file={file}  
-          resetAudio={resetAudio} 
+          Reset={Reset} 
           formSubmit={formSubmit} 
         />
       );
@@ -151,12 +160,12 @@ function App() {
         />
       );
     }
-  }, [transcribe, transcription, loading, file, audioStream, resetAudio, formSubmit]);
+  }, [transcribe, transcription, loading, file, audioStream, Reset, formSubmit]);
 
   return (
     <div className='flex flex-col mx-auto w-full'>
       <section className='min-h-screen flex flex-col'>
-        <Header />
+        <Header Reset={Reset}/>
         {renderedComponent}
       </section>
       <Footer />

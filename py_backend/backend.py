@@ -13,8 +13,7 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": FRONTEND_ENDPOINT}})
 socketio = SocketIO(app, cors_allowed_origins=FRONTEND_ENDPOINT)
 
-transcriber = pipeline("automatic-speech-recognition", model="openai/whisper-tiny.en")
-transcription_result = []
+transcription_result, translation_result = [], []
 
 @app.route('/upload-audio', methods=['POST'])
 def upload_audio():
@@ -23,7 +22,7 @@ def upload_audio():
     
     # Emit a "processing" event to notify the frontend
     socketio.emit('processing', {'status': 'Processing the audio file...'})
-    logging.debug('processing emitted')
+    # logging.debug('processing emitted')
     
     audio_file = request.files['audio']
     audio_path = os.path.join('uploaded_audio.wav')
@@ -31,6 +30,7 @@ def upload_audio():
 
     try:
         audio_data, sample_rate = sf.read(audio_path)
+        transcriber = pipeline("automatic-speech-recognition", model="openai/whisper-tiny.en")
         transcription = transcriber(audio_data, return_timestamps=False)
         transcription_result.append(transcription['text'])
 
@@ -52,6 +52,26 @@ def get_transcription():
         return jsonify({'transcription': transcription_result[-1]}), 200
     else:
         return jsonify({'error': 'No transcription available'}), 404
+    
+@app.route('/translation-result', methods=['GET'])
+def get_translation():
+    translater = pipeline("translation", model="facebook/nllb-200-distilled-600M")
+    translation = translater(transcription_result[-1])
+    translation_result.append(translation)
+    if transcription_result:
+        return jsonify({'translation': translation_result[-1]}), 200
+    else:
+        return jsonify({'error': 'No translation available'}), 404
+    
+@app.route('/reset', methods=['POST'])
+def reset():
+    if 'action' in request.form and request.form['action'] == 'reset':
+        # reset backend data
+        transcription_result, translation_result = [], []
+        # logging.debug(f'Here are data lists: {translation_result}, {transcription_result}')
+        return "Data reset successfully", 200 
+    else:
+        return "No data received", 400 
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)
