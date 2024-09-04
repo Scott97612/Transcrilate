@@ -16,13 +16,15 @@ React uses Tailwind for styling.
 
 `cd transcrilate/py_backend`
 
-`conda activate transcrilate` --create a conda env first
+Create a conda env first, then
+
+`conda activate transcrilate` 
 
 `pip install -r requirements.txt`
 
 `python3 backend.py`
 
-Install Node.js, npm
+Install Node.js, npm first, then
 
 `cd transcrilate`
 
