@@ -15,14 +15,21 @@ Python backend `py_backend/backend.py` mainly uses flask and transformers, check
 React uses Tailwind for styling.
 
 `cd transcrilate/py_backend`
+
 `conda activate transcrilate` --create a conda env first
+
 `pip install -r requirements.txt`
+
 `python3 backend.py`
 
 Install Node.js, npm
+
 `cd transcrilate`
+
 `npm install`
+
 `npm install -D tailwindcss postcss autoprefixer`
+
 `npm run dev`
 
 Get the localhost address to the browser.
