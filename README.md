@@ -32,8 +32,6 @@ Install Node.js, npm first, then
 
 `npm install`
 
-`npm install -D tailwindcss postcss autoprefixer`
-
 `npm run dev`
 
 Get the localhost address to the browser.
